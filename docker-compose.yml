@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+ db:
+  image: mariadb
+  restart: always
+  ports:
+   - 3306:3306
+  environment:
+   MYSQL_ROOT_PASSWORD: passwordKuat123.
+
+ adminer:
+  image: adminer
+  restart: always
+  ports:
+   - 8080:8080
+  depends_on:
+   - db
+
+ php:
+  build: .
+  restart: always
+  volumes:
+   - $PWD/web/:/app/public/
+   - $PWD/php.ini:/usr/local/etc/php/php.ini
+
+ caddy:
+  image: caddy
+  restart: always
+  ports:
+   - 80:80
+   - 443:443
+  volumes:
+   - $PWD/Caddyfile:/etc/caddy/Caddyfile
+   - $PWD/web/:/app/public/
+  depends_on:
+   - db
+   - php
