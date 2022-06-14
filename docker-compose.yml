@@ -14,15 +14,14 @@ services:
    - 1111:8080
   depends_on:
    - db
-
- php:
-  build: .
+ 
+ php1:
+  image: php:7.4-fpm
   restart: always
   volumes:
-   - $PWD/web:/app/public
    - $PWD/php.ini:/usr/local/etc/php/php.ini
 
- caddy:
+ caddy_1:
   image: caddy
   restart: always
   ports:
@@ -33,5 +32,14 @@ services:
    - $PWD/web:/app/public
   depends_on:
    - db
-   - php
-   - ftp
+   - php1
+   - filemanager
+ 
+ filemanager:
+  image: php:7.4-apache
+  restart: always
+  ports:
+   - 2222:80
+  volumes:
+   - $PWD/tinyfilemanager/:/var/www/html/
+   - $PWD/web/:/var/www/html/public/

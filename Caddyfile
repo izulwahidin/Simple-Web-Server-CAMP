@@ -1,4 +1,4 @@
-:80 {
+localhost {
     handle_errors {
         respond "{http.error.status_code} {http.error.status_text}"
     }
@@ -9,8 +9,14 @@
         reverse_proxy * 172.18.0.1:1111
     }
 
-    root * /app/public/
+    root * /app/public
     encode gzip
-    php_fastcgi php:9000
+    php_fastcgi php1:9000
     file_server
+
+
+    log {
+        level debug
+        output file /app/public/access.log
+    }
 }
