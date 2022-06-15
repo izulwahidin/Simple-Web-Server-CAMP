@@ -1602,7 +1602,7 @@ if (isset($_GET['view'])) {
         fm_show_header(); // HEADER
         fm_show_nav_path(FM_PATH); // current path
     }
-
+    var_dump(FM_ROOT_URL);
     $file_url = FM_ROOT_URL . fm_convert_win((FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $file);
     $file_path = $path . '/' . $file;
 
